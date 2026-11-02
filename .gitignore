@@ -1,6 +1,7 @@
 venv/
 node_modules/
 .env
-*.pkl
 __pycache__/
 ml/data/
+setup-*.ps1
+prep-deploy.ps1
