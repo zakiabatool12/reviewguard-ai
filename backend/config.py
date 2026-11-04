@@ -37,6 +37,8 @@ class Config:
     SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
     SMTP_USER = os.getenv("SMTP_USER", "")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY", "")
     MAIL_FROM = os.getenv("MAIL_FROM", "") or os.getenv("SMTP_USER", "")
     DEV_PRINT_OTP = os.getenv("DEV_PRINT_OTP", "0") == "1"
     OTP_EXPIRY_MINUTES = 10
@@ -48,5 +50,7 @@ class Config:
     RATELIMIT_STORAGE_URI = os.getenv("RATELIMIT_STORAGE_URI", "memory://")
     RATELIMIT_HEADERS_ENABLED = True
     # Database SSL (needed by Aiven)
+        # Database SSL (needed by Aiven)
     DB_SSL = os.getenv("DB_SSL", "0") == "1"
-    DB_SSL_CA = os.getenv("DB_SSL_CA", "")
+    _ca = os.getenv("DB_SSL_CA", "")
+    DB_SSL_CA = _ca if (not _ca or os.path.isabs(_ca)) else os.path.join(BASE_DIR, _ca)
