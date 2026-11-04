@@ -3,6 +3,8 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from routes.auth import auth_bp
@@ -22,6 +24,7 @@ if len(_secret) < 32 or _secret.startswith("change-this"):
     )
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2, x_proto=1, x_host=1)
 app.config.from_object(Config)
 CORS(app, origins=[Config.FRONTEND_ORIGIN], supports_credentials=True)
 
